@@ -1,20 +1,21 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+
+import Home from './components/home.vue';
+import Login from './components/authentication/login.vue';
+import Register from './components/authentication/register.vue';
+import ForgotPassword from './components/authentication/forgot_password.vue';
+import ResetPassword from './components/authentication/reset_password.vue';
 
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('./views/About.vue'),
-    },
+    { path: '', component: Home },
+    { path: '/login', component: Login },
+    { path: '/register', component: Register },
+    { path: '/forgotpassword', component: ForgotPassword },
+    { path: '/resetpassword/:pass_id', component: ResetPassword },
   ],
 });
