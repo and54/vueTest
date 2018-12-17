@@ -1,0 +1,19 @@
+{
+  "name": "gulf.nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon .",
+    "start": "nodemon server.js"
+  },
+  "author": "Andres Munoz",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
