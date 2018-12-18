@@ -1,51 +1,95 @@
 <template>
   <div class="center">
+    <md-dialog-alert :md-active.sync="showModal" :md-content="modalMsg" md-confirm-text="Accept"/>
+
     <md-card md-with-hover>
+      <!-- <md-button class="md-icon-button">
+        <md-icon>close</md-icon>
+      </md-button> -->
+
       <md-card-header>
         <div class="md-title">Login</div>
       </md-card-header>
 
       <md-card-content>
-        <md-field :class="emailValidation">
+        <md-field :class="{'md-invalid': !emailValidation}">
           <md-icon>alternate_email</md-icon>
           <label>Email</label>
-          <md-input v-model="email"></md-input>
-          <span class="md-error">Email invalid!</span>
+          <md-input
+            v-model="email"
+            @blur="validateEmail()"
+            @focus="emailValidation = true;"
+            @keyup.enter="submit()"
+          ></md-input>
+          <span class="md-error">Valid email is required!</span>
         </md-field>
-        <md-field :class="passValidation">
+        <md-field :class="{'md-invalid': !passValidation}">
           <md-icon>lock</md-icon>
           <label>Password</label>
-          <md-input v-model="password" type="password"></md-input>
-          <span class="md-error">Password invalid!</span>
+          <md-input
+            v-model="password"
+            type="password"
+            @blur="validatePass()"
+            @focus="passValidation = true;"
+            @keyup.enter="submit()"
+          ></md-input>
+          <span class="md-error">{{ passError }}</span>
         </md-field>
       </md-card-content>
 
-      <md-card-actions>
-        <md-button class="md-raised md-primary">Send</md-button>
-        <md-button class="md-raised md-accent">Cancel</md-button>
+      <md-card-actions md-alignment="space-between">
+        <md-button href="/register">Register</md-button>
+        <md-button class="md-raised md-primary" @click="submit()">Send</md-button>
       </md-card-actions>
     </md-card>
   </div>
 </template>
 
 <script>
+import { AuthBus } from "../../services/authentication";
+
 export default {
   data: () => ({
-    email: null,
-    password: null,
+    email: "",
+    password: "",
+    emailValidation: true,
+    passValidation: true,
+    passError: "",
+    showModal: false,
+    modalMsg: ""
   }),
-  computed: {
-    emailValidation() {
-      return {
-        'md-invalid': false,
-      };
-    },
-    passValidation() {
-      return {
-        'md-invalid': false,
-      };
-    },
+  created() {
+    AuthBus.$on("userData", this.userData);
   },
+  methods: {
+    submit() {
+      if (this.validateEmail() && this.validatePass()) {
+        AuthBus.Login(this.email, this.password, (success, message) => {
+          if (success) this.$router.push("/dashboard");
+          else {
+            this.modalMsg = message;
+            this.showModal = true;
+          }
+        });
+      }
+    },
+    validateEmail() {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      this.emailValidation = re.test(this.email);
+      return this.emailValidation;
+    },
+    validatePass() {
+      this.passValidation = this.password.length >= 6;
+      this.passError =
+        this.password.length === 0
+          ? "Password is required!"
+          : "Password can't be les than 6 characters!";
+      return this.passValidation;
+    },
+    userData(data) {
+      console.log("userData received (method)", data);
+    }
+  }
 };
 </script>
 

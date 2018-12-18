@@ -11,8 +11,9 @@ import 'vue-material/dist/theme/default.css';
 
 axios.defaults.baseURL = 'http://localhost:4300';
 // axios.defaults.headers.common['Authorization'] = '';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
 axios.interceptors.response.use((res) => {
-  // eslint-disable-next-line no-console
   console.log('response', res);
   return res;
 });

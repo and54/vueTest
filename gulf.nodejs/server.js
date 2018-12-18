@@ -1,8 +1,7 @@
-//import express from 'express';
-// import bodyParser  from 'body-parser';
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
+const cors = require('cors');
 
 const auth = require('./api/auth');
 
@@ -11,11 +10,12 @@ const port = process.env.PORT || 4300;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
+app.use(cors());
 
 app.use('/auth', auth);
 
 app.use((req, res, next)=> {
-    const err = new Error("Not Found");
+    const err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
@@ -23,10 +23,8 @@ app.use((req, res, next)=> {
 app.use((err, req, res, next) => {
     res.status(err.status || 501);
     res.json({
-        error: {
-            code: err.status || 501,
-            message: err.message
-        }
+        success: false,
+        message: err.message
     });
  });
 
