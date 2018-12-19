@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 
+import Vuelidate from 'vuelidate';
 import Vue from 'vue';
 import VueMaterial from 'vue-material';
 import axios from 'axios';
@@ -20,6 +21,7 @@ axios.interceptors.response.use((res) => {
 
 Vue.config.productionTip = false;
 Vue.use(VueMaterial);
+Vue.use(Vuelidate);
 
 new Vue({
   router,

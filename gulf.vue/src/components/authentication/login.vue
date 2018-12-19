@@ -1,7 +1,7 @@
 <template>
   <div class="center">
     <md-dialog-alert :md-active.sync="showModal" :md-content="modalMsg" md-confirm-text="Accept"/>
-
+    <div class="mydiv" id="password"></div>
     <md-card md-with-hover>
       <!-- <md-button class="md-icon-button">
         <md-icon>close</md-icon>
@@ -46,26 +46,26 @@
 </template>
 
 <script>
-import { AuthBus } from "../../services/authentication";
+import { AuthBus } from '../../services/authentication';
 
 export default {
   data: () => ({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     emailValidation: true,
     passValidation: true,
-    passError: "",
+    passError: '',
     showModal: false,
-    modalMsg: ""
+    modalMsg: '',
   }),
   created() {
-    AuthBus.$on("userData", this.userData);
+    AuthBus.$on('userData', this.userData);
   },
   methods: {
     submit() {
       if (this.validateEmail() && this.validatePass()) {
         AuthBus.Login(this.email, this.password, (success, message) => {
-          if (success) this.$router.push("/dashboard");
+          if (success) this.$router.push('/dashboard');
           else {
             this.modalMsg = message;
             this.showModal = true;
@@ -80,16 +80,13 @@ export default {
     },
     validatePass() {
       this.passValidation = this.password.length >= 6;
-      this.passError =
-        this.password.length === 0
-          ? "Password is required!"
-          : "Password can't be les than 6 characters!";
+      this.passError = this.password.length === 0 ? 'Password is required!' : 'Password can\'t be les than 6 characters!';
       return this.passValidation;
     },
     userData(data) {
-      console.log("userData received (method)", data);
-    }
-  }
+      console.log('userData received (method)', data);
+    },
+  },
 };
 </script>
 
@@ -101,7 +98,9 @@ export default {
 .md-card {
   border-radius: 4px;
   padding: 10px;
-  width: 600px;
+  width: 60%;
+  min-width: 400px;
+  max-width: 800px;
   margin: 0 auto;
   top: 50%;
   -ms-transform: translateY(-50%);

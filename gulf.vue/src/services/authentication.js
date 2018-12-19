@@ -27,6 +27,6 @@ export const AuthBus = new Vue({
       this.user = user;
       console.log('emit info', user);
       this.$emit('userData', user);
-    }
+    },
   },
 })

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Home from './components/home.vue';
-import Dashboard from './components/dashboard.vue'
+import Dashboard from './components/dashboard.vue';
 import Login from './components/authentication/login.vue';
 import Register from './components/authentication/register.vue';
 import ForgotPassword from './components/authentication/forgot_password.vue';
