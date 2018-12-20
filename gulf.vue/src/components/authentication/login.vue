@@ -3,10 +3,6 @@
     <md-dialog-alert :md-active.sync="showModal" :md-content="modalMsg" md-confirm-text="Accept"/>
     <div class="mydiv" id="password"></div>
     <md-card md-with-hover>
-      <!-- <md-button class="md-icon-button">
-        <md-icon>close</md-icon>
-      </md-button> -->
-
       <md-card-header>
         <div class="md-title">Login</div>
       </md-card-header>
@@ -27,8 +23,9 @@
       </md-card-content>
 
       <md-card-actions md-alignment="space-between">
+        <md-button href="/forgotpassword">Forgot Password</md-button>
         <md-button href="/register">Register</md-button>
-        <md-button class="md-raised md-primary" @click="submit()">Send</md-button>
+        <md-button class="md-raised md-primary" @click="submit()">Login</md-button>
       </md-card-actions>
     </md-card>
   </div>

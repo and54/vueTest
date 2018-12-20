@@ -19,7 +19,7 @@ module.exports = {
                 db.collection('users').findOne(data, (err, result) => {
                     if (err) console.log('Login >>> ', err);
                     client.close();
-                    callBack(err, Boolean(result));
+                    callBack(err, result);
                 })
             }
         })

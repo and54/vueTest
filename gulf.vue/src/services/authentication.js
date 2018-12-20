@@ -10,7 +10,6 @@ export const AuthBus = new Vue({
     user: null,
   },
   methods: {
-
     Login(user, password, callBack) {
       const data = {
         user,
@@ -36,6 +35,14 @@ export const AuthBus = new Vue({
 
     CheckEmail(email, callBack) {
       axiosAuth.get('/auth/checkuser/'+email).then((res) => {
+        callBack(null, res.data);
+      }).catch((err) => {
+        callBack(err.response.data.message, null);
+      });
+    },
+
+    ContactInfo(email, callBack) {
+      axiosAuth.get('/auth/contactinfo/'+email).then((res) => {
         callBack(null, res.data);
       }).catch((err) => {
         callBack(err.response.data.message, null);

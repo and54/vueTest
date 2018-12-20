@@ -22,7 +22,7 @@
 
           <md-field :class="{'md-invalid': $v.email.$error}">
             <label>Email</label>
-            <md-input v-model="email" @input="$v.email.$touch(); checkedEmail = false;" @blur="validateEmail()" ></md-input>
+            <md-input v-model="email" @input="$v.email.$touch(); checkedEmail=false;" @blur="validateEmail()" ></md-input>
             <md-icon v-if="checkedEmail && !validEmail" class="red">cancel</md-icon>
             <md-icon v-if="checkedEmail && validEmail" class="green">check_circle</md-icon>
             <span class="md-error">{{ emailError }}</span>
@@ -55,8 +55,6 @@
             <md-input v-model="ssn" @input="$v.ssn.$touch()"></md-input>
             <span class="md-error">SSN not valid!</span>
           </md-field>
-
-          <div>{{ "invalid: " + $v.$invalid + " - error: " + $v.$error + " - checkedEmail: " + checkedEmail + " - validEmail: " + validEmail }}</div>
         </md-card-content>
 
         <md-card-actions>
@@ -69,80 +67,79 @@
 </template>
 
 <script>
-import { AuthBus } from "../../services/authentication";
-import md5 from "md5";
-import { required, email, maxLength, minLength, alpha, numeric, sameAs } from "vuelidate/lib/validators";
+import { AuthBus } from '../../services/authentication';
+import md5 from 'md5';
+import { required, email, maxLength, minLength, alpha, numeric, sameAs } from 'vuelidate/lib/validators';
 
 const checkPassword = (value, component) => {
-  component.passError = "";
-  if (value.length < 8) component.passError = "Be at least 8 characters!";
-  if (!/[A-Z]/.test(value)) component.passError = "At least one capital letter!";
-  if (!/[a-z]/.test(value)) component.passError = "At least one letter!";
-  if (!/\d/.test(value)) component.passError = "At least one number!";
-  if (/\ /.test(value)) component.passError = "No spaces accepted!";
+  component.passError = '';
+  if (value.length < 8) component.passError = 'Be at least 8 characters!';
+  if (!/[A-Z]/.test(value)) component.passError = 'At least one capital letter!';
+  if (!/[a-z]/.test(value)) component.passError = 'At least one letter!';
+  if (!/\d/.test(value)) component.passError = 'At least one number!';
+  if (/ /.test(value)) component.passError = 'No spaces accepted!';
   return !Boolean(component.passError);
 };
 
 const checkEmail = (value, component) => {
-  component.emailError =
-    component.checkedEmail && !component.validEmail ? "Email already in use!" : "Valid email is required!";
+  component.emailError = (component.checkedEmail && !component.validEmail) ? 'Email already in use!' : 'Valid email is required!';
   return !component.checkedEmail || component.validEmail;
 };
 
 export default {
   data: () => ({
-    name: "",
-    lastname: "",
-    email: "",
-    reemail: "",
-    password: "",
-    repassword: "",
-    ssn: "",
-    phone: "",
+    name: '',
+    lastname: '',
+    email: '',
+    reemail: '',
+    password: '',
+    repassword: '',
+    ssn: '',
+    phone: '',
 
     checkedEmail: false,
     validEmail: false,
 
-    passError: "",
-    emailError: "",
+    passError: '',
+    emailError: '',
     showModal: false,
-    modalMsg: ""
+    modalMsg: '',
   }),
   validations: {
     name: {
       required,
-      alpha
+      alpha,
     },
     lastname: {
       required,
-      alpha
+      alpha,
     },
     email: {
       required,
       email,
-      checkEmail
+      checkEmail,
     },
     reemail: {
-      reemail: sameAs("email")
+      reemail: sameAs('email'),
     },
     password: {
       required,
-      checkPassword
+      checkPassword,
     },
     repassword: {
-      repassword: sameAs("password")
+      repassword: sameAs('password'),
     },
     phone: {
       required,
       numeric,
-      minLength: minLength(10)
+      minLength: minLength(10),
     },
     ssn: {
       required,
       numeric,
       minLength: minLength(4),
-      maxLength: maxLength(4)
-    }
+      maxLength: maxLength(4),
+    },
   },
   methods: {
     submit() {
@@ -154,7 +151,7 @@ export default {
           password: md5(this.password),
           ssn: this.ssn,
           emails: [this.email],
-          phones: [this.phone]
+          phones: [this.phone],
         };
         AuthBus.RegisterUser(data, (success, message) => {
           if (success) this.$router.push('/login');
@@ -166,18 +163,18 @@ export default {
       }
     },
     validateEmail() {
-      console.log("validateEmail");
+      console.log('validateEmail');
       AuthBus.CheckEmail(this.email, (err, data) => {
         if (data) {
           this.checkedEmail = true;
           this.validEmail = !data.exists;
         } else {
-          this.modalMsg = message;
+          this.modalMsg = err;
           this.showModal = true;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

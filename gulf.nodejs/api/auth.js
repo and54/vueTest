@@ -59,24 +59,61 @@ router.post('/register', (req, res, next) => {
     }
 });
 
+router.get('/contactinfo/:user', (req, res, next) => {
+    if (req.params.user) {
+        dbCalls.CheckUser({
+            user: req.params.user
+        }, (err, data) => {
+            console.log(err, data)
+            if (err || !data) {
+                res.status(401).json({
+                    success: false,
+                    message: 'error'
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: 'user info',
+                    info: {
+                        emails: data.emails,
+                        phones: data.phones
+                    }
+                });
+            }
+        });
+    } else {
+        res.status(400).json({
+            success: false,
+            message: 'bad request'
+        });
+    }
+});
+
 router.get('/checkuser/:user', (req, res, next) => {
-    dbCalls.CheckUser({
-        user: req.params.user
-    }, (err, data) => {
-        console.log(err, data)
-        if (err) {
-            res.status(401).json({
-                success: false,
-                message: 'error'
-            });
-        } else {
-            res.status(200).json({
-                success: true,
-                message: 'user checked',
-                exists: data
-            });
-        }
-    });
+    if (req.params.user) {
+        dbCalls.CheckUser({
+            user: req.params.user
+        }, (err, data) => {
+            console.log(err, data)
+            if (err) {
+                res.status(401).json({
+                    success: false,
+                    message: 'error'
+                });
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: 'user checked',
+                    exists: Boolean(data)
+                });
+            }
+        });
+    } else {
+        res.status(400).json({
+            success: false,
+            message: 'bad request'
+        });
+    }
 });
 
 module.exports = router;
