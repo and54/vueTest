@@ -33,6 +33,32 @@ router.post('/login', (req, res, next) => {
     }
 });
 
+router.post('/register', (req, res, next) => {
+    if (req.body.user && req.body.password) {
+        dbCalls.InsertField('users', req.body, (err, data) => {
+            console.log(err, data)
+            if (err || !data) {
+                res.status(401).json({
+                    success: false,
+                    message: 'unauthorized'
+                });
+            } else {
+                req.body.password = null;
+                res.status(200).json({
+                    success: true,
+                    message: 'user registered',
+                    user: req.body
+                });
+            }
+        });
+    } else {
+        res.status(400).json({
+            success: false,
+            message: 'bad request'
+        });
+    }
+});
+
 router.get('/checkuser/:user', (req, res, next) => {
     dbCalls.CheckUser({
         user: req.params.user

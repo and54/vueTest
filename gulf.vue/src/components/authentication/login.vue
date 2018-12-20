@@ -15,24 +15,13 @@
         <md-field :class="{'md-invalid': !emailValidation}">
           <md-icon>alternate_email</md-icon>
           <label>Email</label>
-          <md-input
-            v-model="email"
-            @blur="validateEmail()"
-            @focus="emailValidation = true;"
-            @keyup.enter="submit()"
-          ></md-input>
+          <md-input v-model="email" @blur="validateEmail()" @focus="emailValidation = true;" @keyup.enter="submit()"></md-input>
           <span class="md-error">Valid email is required!</span>
         </md-field>
         <md-field :class="{'md-invalid': !passValidation}">
           <md-icon>lock</md-icon>
           <label>Password</label>
-          <md-input
-            v-model="password"
-            type="password"
-            @blur="validatePass()"
-            @focus="passValidation = true;"
-            @keyup.enter="submit()"
-          ></md-input>
+          <md-input v-model="password" type="password" @blur="validatePass()"  @focus="passValidation = true;" @keyup.enter="submit()"></md-input>
           <span class="md-error">{{ passError }}</span>
         </md-field>
       </md-card-content>
@@ -47,6 +36,7 @@
 
 <script>
 import { AuthBus } from '../../services/authentication';
+import md5 from 'md5';
 
 export default {
   data: () => ({
@@ -64,7 +54,7 @@ export default {
   methods: {
     submit() {
       if (this.validateEmail() && this.validatePass()) {
-        AuthBus.Login(this.email, this.password, (success, message) => {
+        AuthBus.Login(this.email, md5(this.password), (success, message) => {
           if (success) this.$router.push('/dashboard');
           else {
             this.modalMsg = message;
