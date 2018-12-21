@@ -17,7 +17,7 @@
             <span class="md-error">{{ emailError }}</span>
           </md-field>
         </md-card-content>
-        
+
         <md-card-content v-else>
           <div v-for="phone in userInfo.phones">
             Phone: {{ hideNumber(phone) }} <md-radio class="radio" v-model="radio" :value="phone+'-Call'">Call</md-radio><md-radio class="radio" v-model="radio" :value="phone+'-SMS'">SMS</md-radio>
@@ -37,9 +37,9 @@
 </template>
 
 <script>
-import { AuthBus } from '../../services/authentication';
 import md5 from 'md5';
 import { required, email } from 'vuelidate/lib/validators';
+import { AuthBus } from '../../services/authentication';
 
 const checkEmail = (value, component) => {
   component.emailError = (component.checkedEmail && !component.validEmail) ? 'Email provided is not in our database!' : 'Valid email is required!';
@@ -59,23 +59,23 @@ export default {
     validEmail: false,
 
     nextStep: false,
-    
-    emailError:'', 
+
+    emailError: '',
     showModal: false,
     modalMsg: '',
   }),
   validations: {
     email: {
       required,
-      email
+      email,
     },
   },
   methods: {
     callAction() {
-      if (!this.nextStep){
-        if (!this.checkedEmail)this.validateEmail();
-        else if (this.validEmail)this.contactInfo();
-      } else if (this.nextStep)this.submit();
+      if (!this.nextStep) {
+        if (!this.checkedEmail) this.validateEmail();
+        else if (this.validEmail) this.contactInfo();
+      } else if (this.nextStep) this.submit();
     },
     submit() {
       /* AuthBus.RegisterUser(data, (success, message) => {
@@ -86,29 +86,29 @@ export default {
         }
       }); */
     },
-    hideNumber(num){
+    hideNumber(num) {
       let txt = '';
-      for(let i=0; i<num.length-4; i++){
+      for (let i = 0; i < num.length - 4; i++) {
         txt += '*';
       }
       txt += num.substr(-4);
       return txt;
     },
-    hideEmail(email){
+    hideEmail(email) {
       let txt = email.substr(0, 4);
       const at = email.indexOf('@');
       const dot = email.indexOf('.', at);
-      for(let i=4; i<at; i++){
+      for (let i = 4; i < at; i++) {
         txt += '*';
       }
-       txt += '@';
-      for(let i=at; i<dot; i++){
+      txt += '@';
+      for (let i = at; i < dot; i++) {
         txt += '*';
       }
       txt += email.substr(dot);
       return txt;
     },
-    contactInfo(){
+    contactInfo() {
       this.nextStep = true;
       AuthBus.ContactInfo(this.email, (err, data) => {
         if (data) {
@@ -131,8 +131,8 @@ export default {
           this.showModal = true;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 
 import Vuelidate from 'vuelidate';
-import Vue from 'vue';
+import Vue from 'vue/dist/vue'
 import VueMaterial from 'vue-material';
 import axios from 'axios';
 import App from './App.vue';

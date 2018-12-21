@@ -47,7 +47,7 @@
           <md-field :class="{'md-invalid': $v.phone.$error}">
             <label>Phone</label>
             <md-input v-model="phone" @input="$v.phone.$touch()"></md-input>
-            <span class="md-error">Phone not valid!</span>
+            <span class="md-error" v-if="$v.phone.$error">Phone not valid!</span>
           </md-field>
 
           <md-field :class="{'md-invalid': $v.ssn.$error}">
@@ -67,9 +67,11 @@
 </template>
 
 <script>
-import { AuthBus } from '../../services/authentication';
 import md5 from 'md5';
-import { required, email, maxLength, minLength, alpha, numeric, sameAs } from 'vuelidate/lib/validators';
+import {
+  required, email, maxLength, minLength, alpha, numeric, sameAs,
+} from 'vuelidate/lib/validators';
+import { AuthBus } from '../../services/authentication';
 
 const checkPassword = (value, component) => {
   component.passError = '';
@@ -78,7 +80,7 @@ const checkPassword = (value, component) => {
   if (!/[a-z]/.test(value)) component.passError = 'At least one letter!';
   if (!/\d/.test(value)) component.passError = 'At least one number!';
   if (/ /.test(value)) component.passError = 'No spaces accepted!';
-  return !Boolean(component.passError);
+  return !component.passError;
 };
 
 const checkEmail = (value, component) => {
@@ -163,7 +165,6 @@ export default {
       }
     },
     validateEmail() {
-      console.log('validateEmail');
       AuthBus.CheckEmail(this.email, (err, data) => {
         if (data) {
           this.checkedEmail = true;

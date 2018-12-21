@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import { AuthBus } from '../../services/authentication';
 import md5 from 'md5';
+import { AuthBus } from '../../services/authentication';
 
 export default {
   data: () => ({

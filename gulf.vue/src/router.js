@@ -1,5 +1,6 @@
-import Vue from 'vue';
+import Vue from 'vue/dist/vue'
 import Router from 'vue-router';
+import { AuthBus } from './services/authentication'
 
 import Home from './components/home.vue';
 import Dashboard from './components/dashboard.vue';
@@ -10,11 +11,16 @@ import ResetPassword from './components/authentication/reset_password.vue';
 
 Vue.use(Router);
 
+function CheckToken (to, from, next) {
+  if (AuthBus.token) next();
+  else next('/login');
+}
+
 export default new Router({
   mode: 'history',
   routes: [
     { path: '', component: Home },
-    { path: '/dashboard', component: Dashboard },
+    { path: '/dashboard', component: Dashboard, beforeEnter: CheckToken},
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/forgotpassword', component: ForgotPassword },
