@@ -19,10 +19,10 @@
         </md-card-content>
 
         <md-card-content v-else>
-          <div v-for="phone in userInfo.phones">
+          <div v-for="phone in userInfo.phones" :key="phone" >
             Phone: {{ hideNumber(phone) }} <md-radio class="radio" v-model="radio" :value="phone+'-Call'">Call</md-radio><md-radio class="radio" v-model="radio" :value="phone+'-SMS'">SMS</md-radio>
           </div>
-          <div v-for="email in userInfo.emails">
+          <div v-for="email in userInfo.emails" :key="email">
             <md-radio v-model="radio" :value="email" >Send email to: {{ hideEmail(email) }}</md-radio>
           </div>
         </md-card-content>

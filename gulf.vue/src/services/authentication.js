@@ -4,6 +4,10 @@ import axios from 'axios';
 const axiosAuth = axios.create({});
 // axiosAuth.defaults.headers.common['Authorization'] = '';
 
+function CheckError(err) {
+  return err.response ? err.response.data.message : err.message;
+}
+
 export const AuthBus = new Vue({
   data: {
     token: null,
@@ -21,7 +25,7 @@ export const AuthBus = new Vue({
         this.SendUserInfo(res.data.user);
         callBack(true, res.data.message);
       }).catch((err) => {
-        callBack(false, err.response.data.message);
+        callBack(false, CheckError(err));
       });
     },
 
@@ -29,7 +33,7 @@ export const AuthBus = new Vue({
       axiosAuth.post('/auth/register', data).then((res) => {
         callBack(true, res.data.message);
       }).catch((err) => {
-        callBack(false, err.response.data.message);
+        callBack(false, CheckError(err));
       });
     },
 
@@ -37,7 +41,7 @@ export const AuthBus = new Vue({
       axiosAuth.get(`/auth/checkuser/${email}`).then((res) => {
         callBack(null, res.data);
       }).catch((err) => {
-        callBack(err.response.data.message, null);
+        callBack(CheckError(err), null);
       });
     },
 
@@ -45,7 +49,7 @@ export const AuthBus = new Vue({
       axiosAuth.get(`/auth/contactinfo/${email}`).then((res) => {
         callBack(null, res.data);
       }).catch((err) => {
-        callBack(err.response.data.message, null);
+        callBack(CheckError(err), null);
       });
     },
 
@@ -53,5 +57,6 @@ export const AuthBus = new Vue({
       this.user = user;
       this.$emit('userData', user);
     },
+
   },
 });
