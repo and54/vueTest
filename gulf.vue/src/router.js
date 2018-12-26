@@ -9,11 +9,14 @@ import Register from './components/authentication/register.vue';
 import ForgotPassword from './components/authentication/forgot_password.vue';
 import ResetPassword from './components/authentication/reset_password.vue';
 
+import App from './App';
+
 Vue.use(Router);
 
 function CheckToken (to, from, next) {
   if (AuthBus.token) next();
   else next('/login');
+  App.component.enter = false;
 }
 
 export default new Router({

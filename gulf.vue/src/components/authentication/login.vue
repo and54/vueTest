@@ -23,8 +23,8 @@
       </md-card-content>
 
       <md-card-actions md-alignment="space-between">
-        <md-button href="/forgotpassword">Forgot Password</md-button>
-        <md-button href="/register">Register</md-button>
+        <router-link to="/forgotpassword"><md-button>Forgot Password</md-button></router-link>
+        <router-link to="/register"><md-button>Register</md-button></router-link>
         <md-button class="md-raised md-primary" @click="submit()">Login</md-button>
       </md-card-actions>
     </md-card>

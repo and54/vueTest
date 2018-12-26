@@ -29,7 +29,7 @@
 
         <md-card-actions>
           <md-button class="md-raised md-primary" @click="callAction()">Send</md-button>
-          <md-button class="md-raised md-accent" href="/login">Cancel</md-button>
+          <router-link to="/login"><md-button class="md-raised md-accent">Cancel</md-button></router-link>
         </md-card-actions>
       </div>
     </md-card>
