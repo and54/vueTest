@@ -1,11 +1,17 @@
 import 'babel-polyfill';
 
 import Vuelidate from 'vuelidate';
-import Vue from 'vue/dist/vue'
+//import Vue from 'vue/dist/vue';
+import Vue from 'vue';
+import Vuex from 'vuex'
 import VueMaterial from 'vue-material';
 import axios from 'axios';
 import App from './App.vue';
 import router from './router';
+
+import VueResponsiveGridLayout from 'vue-responsive-grid-layout';
+
+import 'es6-promise/auto';
 
 import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';
@@ -22,6 +28,10 @@ axios.interceptors.response.use((res) => {
 Vue.config.productionTip = false;
 Vue.use(VueMaterial);
 Vue.use(Vuelidate);
+
+Vue.use(Vuex);
+
+Vue.use(VueResponsiveGridLayout);
 
 new Vue({
   router,

@@ -1,24 +1,19 @@
-import Vue from 'vue/dist/vue';
+//import Vue from 'vue/dist/vue';
+import Vue from 'vue';
 
 Vue.component('cmp-profile', {
-  data: () => ({
-
-  }),
   props: {
     userInfo: Object,
   },
   methods: {
-
-  },
-  computed: {
-    avatar () {
-      return require('../../assets/avatar.png')
+    getImage() {
+      return require('../../assets/avatar.png');
     }
   },
   template: 
     `<md-card class="center" md-with-hover>
       <p class="block">
-        <p><img :src="avatar"></p>
+        <p><img :src="getImage()"></p>
         <h1>{{ userInfo.name + " " + userInfo.lastname }}</h1>
         <h2>{{ userInfo.user }}</h2>
       </p>

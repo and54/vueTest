@@ -52,7 +52,7 @@ export default {
     submit() {
       if (this.validateEmail() && this.validatePass()) {
         AuthBus.Login(this.email, md5(this.password), (success, message) => {
-          if (success) this.$router.push('/dashboard');
+          if (success) this.$router.push('/dragdash2');
           else {
             this.modalMsg = message;
             this.showModal = true;

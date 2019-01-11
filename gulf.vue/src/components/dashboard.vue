@@ -1,18 +1,21 @@
 <template>
   <div>
-    dashboard
-    <cmp-profile :userInfo="userInfo" class="md-card center block"></cmp-profile>
+    <span>dashboard</span>
+    <cmp-profile :userInfo="userInfo" :image="require('@/assets/avatar.png')" class="md-card center block"></cmp-profile>
   </div>
 </template>
 
 <script>
-import profile from './dashboard/profile';
-import { AuthBus } from '../services/authentication';
+import CmpProfile from "./dashboard/profile.vue";
+import { AuthBus } from "../services/authentication";
 
 export default {
   data: () => ({
     userInfo: AuthBus.user ? AuthBus.user : {},
   }),
+  components: {
+    CmpProfile
+  }
 };
 </script>
 
@@ -29,6 +32,6 @@ export default {
   margin: 0 auto;
 }
 .block {
-  line-height: .5;
+  line-height: 0.5;
 }
 </style>

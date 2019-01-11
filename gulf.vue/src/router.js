@@ -1,8 +1,11 @@
-import Vue from 'vue/dist/vue'
+//import Vue from 'vue/dist/vue';
+import Vue from 'vue';
 import Router from 'vue-router';
-import { AuthBus } from './services/authentication'
+import { AuthBus } from './services/authentication';
 
 import Home from './components/home.vue';
+import DragDash from './components/drag_dash.vue';
+import DragDash2 from './components/drag_dash2.vue';
 import Dashboard from './components/dashboard.vue';
 import Login from './components/authentication/login.vue';
 import Register from './components/authentication/register.vue';
@@ -14,9 +17,9 @@ import App from './App';
 Vue.use(Router);
 
 function CheckToken (to, from, next) {
-  if (AuthBus.token) next();
+  if (AuthBus && AuthBus.token) next();
   else next('/login');
-  App.component.enter = false;
+  if (App.component) App.component.enter = false;
 }
 
 export default new Router({
@@ -24,6 +27,8 @@ export default new Router({
   routes: [
     { path: '', component: Home },
     { path: '/dashboard', component: Dashboard, beforeEnter: CheckToken},
+    { path: '/dragdash', component: DragDash},
+    { path: '/dragdash2', component: DragDash2},
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/forgotpassword', component: ForgotPassword },
